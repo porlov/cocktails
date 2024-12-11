@@ -1,0 +1,120 @@
+@use '../../styles/mixins/breakpoint' as *;
+
+.cocktail {
+  display: grid;
+  grid-template-rows: 1fr min-content auto;
+  grid-template-columns: 3fr 2fr;
+
+  @include breakpoint(min, desktop) {
+    padding-bottom: 2rem;
+  }
+
+  &__section {
+    margin: 0 1rem;
+
+    &-header {
+      background-image: repeating-linear-gradient(to right, #aaa 0, #aaa 33.33%, transparent 33.33%, transparent 100%);
+      background-position: left bottom;
+      background-repeat: repeat-x;
+      background-size: 5.25px 1.75px;
+
+      h2 {
+        font-size: 1.875rem;
+        font-weight: 400;
+
+        @include breakpoint(max, mobile) {
+          font-size: 1.5rem;
+        }
+      }
+    }
+  }
+
+  &__short-description {
+    p {
+      font-style: italic;
+      margin: 0.5em 0;
+    }
+  }
+
+  &__info {
+    grid-row: 1;
+    grid-column: 1;
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 400;
+      margin: 1rem 0 1.5rem 0;
+
+      @include breakpoint(max, mobile) {
+        font-size: 1.75rem;
+      }
+    }
+
+    @include breakpoint(max, mobile) {
+      grid-row: 1;
+      grid-column: 1 / span 2;
+    }
+  }
+
+  &__image {
+    grid-row: 1 / span 2;
+    grid-column: 2;
+    margin: 1em;
+    width: 80%;
+    justify-self: center;
+
+    @include breakpoint(min, mobile) {
+      grid-row: 1 / span 3;
+      grid-column: 2;
+    }
+
+    @include breakpoint(max, mobile) {
+      grid-row: 2;
+      grid-column: 1 / span 2;
+    }
+
+    img {
+      width: 100%;
+
+      @include breakpoint(mobile, tablet) {
+        min-width: 30vw;
+      }
+    }
+  }
+
+  &__instructions {
+    @include breakpoint(max, tablet) {
+      grid-column: 1 / span 2;
+    }
+
+    p {
+      font-size: 1.25rem;
+      font-weight: 300;
+
+      @include breakpoint(max, mobile) {
+        font-size: 1.1rem;
+      }
+    }
+  }
+
+  &__ingredients {
+    @include breakpoint(max, tablet) {
+      grid-column: 1 / span 2;
+    }
+
+    &-list {
+      list-style: none;
+      margin-left: 0;
+      padding-left: 0;
+
+      li:before {
+        display: inline-block;
+        content: '■';
+        font-size: 0.75rem;
+        color: #9d2a2c;
+        transform: rotate(45deg);
+        padding: 0.5rem 0.5rem 0.75rem 0;
+      }
+    }
+  }
+}

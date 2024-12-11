@@ -1,0 +1,83 @@
+@use 'sass:map';
+@use 'sass:list';
+
+$breakpoint-map: (
+  'mobile': 480px,
+  'tablet': 768px,
+  'desktop': 1240px
+) !default;
+
+@function validateBreakpoint($value) {
+  @for $i from 1 through list.length($value) {
+    @if map.has-key($breakpoint-map, $value) {
+      @return map.get($breakpoint-map, list.nth($value, $i));
+    } @else {
+      @return list.nth($value, $i);
+    }
+  }
+}
+
+@mixin breakpoint($params...) {
+  @if list.length($params) == 1 {
+    $value: list.nth($params, 1);
+    @if map.has-key($breakpoint-map, $value) {
+      @media (width: map.get($breakpoint-map, $value)) {
+        @content;
+      }
+    } @else {
+      @media (width: $value) {
+        @content;
+      }
+    }
+  } @else if list.length($params) == 2 {
+    @if not list.index('only' 'min' 'max' 'between', list.nth($params, 1)) {
+      $start: list.nth($params, 1);
+      $end: list.nth($params, 2);
+      @media (min-width: #{validateBreakpoint($start)}) and
+        (max-width: #{if(map.has-key($breakpoint-map, $end), validateBreakpoint($end) - 1, $end)}) {
+        @content;
+      }
+    } @else {
+      $mode: list.nth($params, 1);
+      $value: list.nth($params, 2);
+      @if $mode == 'only' {
+        @if map.has-key($breakpoint-map, $value) {
+          @media (width: map.get($breakpoint-map, $value)) {
+            @content;
+          }
+        } @else {
+          @media (width: $value) {
+            @content;
+          }
+        }
+      } @else if $mode == 'min' {
+        @if map.has-key($breakpoint-map, $value) {
+          @media (min-width: map.get($breakpoint-map, $value)) {
+            @content;
+          }
+        } @else {
+          @media (min-width: $value) {
+            @content;
+          }
+        }
+      } @else if $mode == 'max' {
+        @if map.has-key($breakpoint-map, $value) {
+          @media (max-width: map.get($breakpoint-map, $value)) {
+            @content;
+          }
+        } @else {
+          @media (max-width: $value) {
+            @content;
+          }
+        }
+      } @else if $mode == 'between' {
+        $start: list.nth($value, 1);
+        $end: list.nth($value, 2);
+        @media (min-width: #{validateBreakpoint($start)}) and
+          (max-width: #{if(map.has-key($breakpoint-map, $end), validateBreakpoint($end) - 1, $end)}) {
+          @content;
+        }
+      }
+    }
+  }
+}

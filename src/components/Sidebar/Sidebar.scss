@@ -1,0 +1,51 @@
+@use '../../styles/mixins/breakpoint' as *;
+
+.sidebar {
+  width: 200px;
+  background-color: #f1f1f1;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+
+  @include breakpoint(max, desktop) {
+    width: 100%;
+    height: auto;
+    position: sticky;
+    top: 0;
+    z-index: 99999;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    a {
+      display: block;
+      color: black;
+      padding: 1em;
+      text-decoration: none;
+      text-transform: capitalize;
+
+      @include breakpoint(max, desktop) {
+        float: left;
+      }
+
+      @include breakpoint(max, mobile) {
+        float: none;
+        text-align: center;
+        padding: 0.75em;
+      }
+
+      &.active {
+        background-color: #0c8055;
+        color: white;
+      }
+
+      &:hover:not(.active) {
+        background-color: #65b554;
+        color: white;
+      }
+    }
+  }
+}

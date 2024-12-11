@@ -1,0 +1,10 @@
+@use '../../styles/mixins/breakpoint' as *;
+
+.content {
+  margin-left: 200px;
+  padding: 1em;
+
+  @include breakpoint(max, desktop) {
+    margin-left: 0;
+  }
+}
